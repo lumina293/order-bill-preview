@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 export default function Home() {
     // Mock order data
     const orderItems = [
@@ -10,6 +14,9 @@ export default function Home() {
     const deliveryFee = 3.99;
     const platformFee = 1.50;
     const taxRate = 0.08; // 8%
+
+    // State for promo code input
+    const [promoCode, setPromoCode] = useState('');
 
     // Calculate line total
     const calculateLineTotal = (quantity, unitPrice) => {
@@ -90,6 +97,29 @@ export default function Home() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+
+                {/* Promo Code Section */}
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                        Promo Code
+                    </h2>
+
+                    <div className="flex gap-3">
+                        <input
+                            type="text"
+                            value={promoCode}
+                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                            placeholder="Enter promo code"
+                            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                        <button
+                            onClick={() => console.log('Apply clicked:', promoCode)}
+                            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                        >
+                            Apply
+                        </button>
                     </div>
                 </div>
 
