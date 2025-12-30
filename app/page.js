@@ -6,15 +6,43 @@ export default function Home() {
         { id: 3, name: "Coca-Cola (1L)", quantity: 2, unitPrice: 2.99 }
     ];
 
-    // Calculate line totals
+    // Fees
+    const deliveryFee = 3.99;
+    const platformFee = 1.50;
+    const taxRate = 0.08; // 8%
+
+    // Calculate line total
     const calculateLineTotal = (quantity, unitPrice) => {
         return quantity * unitPrice;
+    };
+
+    // Calculate subtotal
+    const calculateSubtotal = () => {
+        return orderItems.reduce((sum, item) => {
+            return sum + calculateLineTotal(item.quantity, item.unitPrice);
+        }, 0);
+    };
+
+    // Calculate tax
+    const calculateTax = (subtotal) => {
+        return subtotal * taxRate;
+    };
+
+    // Calculate grand total
+    const calculateTotal = () => {
+        const subtotal = calculateSubtotal();
+        const tax = calculateTax(subtotal);
+        return subtotal + deliveryFee + platformFee + tax;
     };
 
     // Format currency
     const formatCurrency = (amount) => {
         return `$${amount.toFixed(2)}`;
     };
+
+    const subtotal = calculateSubtotal();
+    const tax = calculateTax(subtotal);
+    const total = calculateTotal();
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -65,9 +93,46 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Placeholder for Price Breakdown */}
+                {/* Price Breakdown Section */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <p className="text-gray-600">Price breakdown will appear here...</p>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                        Bill Summary
+                    </h2>
+
+                    <div className="space-y-3">
+                        {/* Subtotal */}
+                        <div className="flex justify-between text-gray-700">
+                            <span>Subtotal</span>
+                            <span>{formatCurrency(subtotal)}</span>
+                        </div>
+
+                        {/* Delivery Fee */}
+                        <div className="flex justify-between text-gray-700">
+                            <span>Delivery Fee</span>
+                            <span>{formatCurrency(deliveryFee)}</span>
+                        </div>
+
+                        {/* Platform Fee */}
+                        <div className="flex justify-between text-gray-700">
+                            <span>Platform Fee</span>
+                            <span>{formatCurrency(platformFee)}</span>
+                        </div>
+
+                        {/* Tax */}
+                        <div className="flex justify-between text-gray-700">
+                            <span>Tax (8%)</span>
+                            <span>{formatCurrency(tax)}</span>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-gray-200 my-3"></div>
+
+                        {/* Total */}
+                        <div className="flex justify-between text-lg font-bold text-gray-900">
+                            <span>Total</span>
+                            <span>{formatCurrency(total)}</span>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
